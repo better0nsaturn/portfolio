@@ -40,13 +40,7 @@ export default async function CaseDetailPage({
   }
 
   const currentIndex = cases.findIndex((c) => c.slug === slug);
-  // Resolve nextCase, skipping any case that uses a custom href (gallery pages)
-  let nextCase = cases[(currentIndex + 1) % cases.length];
-  let safetyLimit = cases.length;
-  while (nextCase.href && safetyLimit-- > 0) {
-    const nextIdx = (cases.findIndex((c) => c.slug === nextCase.slug) + 1) % cases.length;
-    nextCase = cases[nextIdx];
-  }
+  const nextCase = cases[(currentIndex + 1) % cases.length];
 
   return (
     <div className="relative">
@@ -327,7 +321,7 @@ export default async function CaseDetailPage({
         <div className="max-w-[1280px] mx-auto">
           <div className="divider mb-12" />
           <Link
-            href={`/cases/${nextCase.slug}`}
+            href={nextCase.href ?? `/cases/${nextCase.slug}`}
             className="group block rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
             style={{
               background: nextCase.cardBg,
@@ -415,6 +409,48 @@ function CaseSectionRenderer({ section }: { section: CaseSection }) {
             {typograph(section.caption)}
           </div>
         )}
+      </div>
+    );
+  }
+
+  if (section.type === "list") {
+    return (
+      <ul className="not-prose my-6 flex flex-col gap-3">
+        {section.items.map((item, i) => (
+          <li key={i} className="flex items-start gap-3">
+            <span
+              className="mt-[6px] shrink-0 rounded-full"
+              style={{ width: "6px", height: "6px", background: "#A7A7B6" }}
+            />
+            <span style={{ color: "#D0D0D0", fontSize: "16px", lineHeight: "1.65", letterSpacing: "-0.015em" }}>
+              {typograph(item)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (section.type === "image-pair") {
+    return (
+      <div
+        className="my-10 not-prose"
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}
+      >
+        {section.images.map((img, i) => (
+          <div
+            key={i}
+            className="rounded-2xl overflow-hidden"
+            style={{ border: "1px solid rgba(255,255,255,0.06)" }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={img.src}
+              alt={img.alt}
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
+        ))}
       </div>
     );
   }
