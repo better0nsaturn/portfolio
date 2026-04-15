@@ -59,7 +59,7 @@ export default function ProjectCard({ project }: { project: Case }) {
         />
 
         {/* Tags */}
-        <div className="absolute top-5 left-5 flex flex-wrap gap-2">
+        <div className="absolute top-2 left-2 md:top-5 md:left-5 flex flex-wrap gap-1 md:gap-2">
           {project.tags.map((tag) => (
             <span
               key={tag}

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 
+// ─── Desktop version — absolute, hover-triggered star animation ───────────────
 export default function HeroKeyVisual() {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
-      className="absolute hidden md:block"
+      className="absolute hidden lg:block"
       style={{
         left: "51.2%",
         top: "252px",
@@ -83,6 +84,76 @@ export default function HeroKeyVisual() {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       />
+    </div>
+  );
+}
+
+// ─── Mobile / tablet version — in-flow, stars animate on load then stop ───────
+export function MobileHeroVisual() {
+  // Animation: 3 iterations × 1.8 s = 5.4 s, then stays at final (neutral) frame
+  const anim = (delay: string) =>
+    `starJitter 1.8s steps(1) ${delay} 3 normal forwards`;
+
+  return (
+    <div
+      className="flex justify-center lg:hidden"
+      style={{
+        marginTop: "clamp(2rem, 7vw, 3.5rem)",
+        pointerEvents: "none",
+      }}
+    >
+      <div
+        className="relative"
+        style={{ width: "clamp(220px, 70vw, 460px)" }}
+      >
+        {/* Star — top right */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/star.svg"
+          alt=""
+          className="absolute"
+          style={{
+            width: "clamp(26px, 7vw, 52px)",
+            top: "-6%",
+            right: "6%",
+            animation: anim("0s"),
+          }}
+        />
+        {/* Star — left middle */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/star.svg"
+          alt=""
+          className="absolute"
+          style={{
+            width: "clamp(34px, 9vw, 66px)",
+            top: "42%",
+            left: "-8%",
+            animation: anim("0.6s"),
+          }}
+        />
+        {/* Star — bottom right */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/star.svg"
+          alt=""
+          className="absolute"
+          style={{
+            width: "clamp(42px, 11vw, 86px)",
+            bottom: "-5%",
+            right: "-5%",
+            animation: anim("0.3s"),
+          }}
+        />
+
+        {/* Photo */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/ME.png"
+          alt="Арина Бражникова"
+          style={{ width: "100%", height: "auto", display: "block" }}
+        />
+      </div>
     </div>
   );
 }

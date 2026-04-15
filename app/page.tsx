@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard";
 import ScrollReveal from "@/components/ScrollReveal";
-import HeroKeyVisual from "@/components/HeroKeyVisual";
+import HeroKeyVisual, { MobileHeroVisual } from "@/components/HeroKeyVisual";
 import { cases } from "@/lib/cases";
 import { typograph } from "@/lib/typograph";
 
@@ -26,10 +26,10 @@ export default function HomePage() {
 
       {/* ─── HERO — intro text ─── */}
       <section
-        className="px-6 pt-14 md:pt-20 relative"
-        style={{ minHeight: "calc(100dvh - 72px)", paddingBottom: "80px" }}
+        className="px-6 pt-14 md:pt-20 lg:min-h-[calc(100dvh-72px)] relative"
+        style={{ paddingBottom: "80px" }}
       >
-        {/* Key visual — absolutely positioned on the right, on top of text */}
+        {/* Desktop key visual — absolute, right side, hover stars */}
         <HeroKeyVisual />
 
         <div className="relative">
@@ -59,6 +59,9 @@ export default function HomePage() {
             {typograph("За время работы я занималась улучшением и развитием дизайна крупных продуктов, проектировала сложные сценарии, проводила исследования и разрабатывала концепции с нуля.")}
           </p>
         </div>
+
+        {/* Mobile / tablet key visual — in-flow below text, load-animated stars */}
+        <MobileHeroVisual />
       </section>
 
       {/* ─── Cases grid ─── */}
